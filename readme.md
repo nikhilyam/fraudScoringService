@@ -49,6 +49,7 @@ node -v
 - `GET /fraud-stats` : View accumulated fraud evaluation statistics
 
 ## Example Request (POST /evaluate-risk)
+- `Payload`
 ```json
 {
     "amount": 5000,
@@ -57,7 +58,9 @@ node -v
     "deviceFingerprint": "abc123",
     "email": "user@fraud.net"
 }
-
+```
+- `Payload`
+```json
 {
     "amount": 5500,
     "currency": "USD",

@@ -38,8 +38,12 @@ node -v
     OPENAI_API_URL="https://api.openai.com/v1"
     OPENAI_API_KEY=your_openai_api_key
     ```
+4. **Run the service in development mode**
+```bash
+npm run dev
+```
 
-4. **Run the service**
+Or to in production mode:
     ```bash
     npm start
     ```
@@ -93,6 +97,27 @@ After computing the numeric score, the service calls OpenAI API to generate a **
 - Axios for API calls
 - dotenv + envalid for environment configs
 - OpenAI GPT for explanations
+
+---
+
+## Testing
+
+We use **Jest** and **supertest** for testing the API endpoints.
+
+### Run Tests
+```bash
+npm test
+```
+
+### Example Test Cases
+Tests cover:
+- `POST /evaluate-risk` - should return risk score and level
+- `GET /fraud-stats` - should return stats after evaluation
+
+---
+
+### Test Setup
+Create a test file at `tests/api.test.js`
 
 ---
 **MIT License**

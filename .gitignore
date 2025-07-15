@@ -1,0 +1,8 @@
+node_modules/
+# Ignore environment variable files
+.env
+# Ignore local editor settings
+.vscode/
+# OS files
+.DS_Store
+Thumbs.db

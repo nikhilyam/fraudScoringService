@@ -1,9 +1,9 @@
 # Fraud Scoring Microservice
 
-## 🚀 Overview
+## Overview
 This microservice evaluates the risk level of a payment transaction using predefined heuristics and an AI-powered explanation through the OpenAI API.
 
-## 📦 Features
+## Features
 - Risk scoring based on:
   - Email domain (e.g. `.ru`, `fraud.net`)
   - Large transaction amounts
@@ -14,7 +14,7 @@ This microservice evaluates the risk level of a payment transaction using predef
 - Fully modular with input validation (via Joi)
 - Environment-based configuration using `dotenv` and `envalid`
 
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 ### Node.js Version
 Ensure you are using **Node.js version 18.x or higher**. You can check your current version with:
@@ -48,7 +48,7 @@ node -v
 - `POST /evaluate-risk` : Evaluate fraud risk for a transaction
 - `GET /fraud-stats` : View accumulated fraud evaluation statistics
 
-## 📊 Example Request (POST /evaluate-risk)
+## Example Request (POST /evaluate-risk)
 ```json
 {
     "amount": 5000,
@@ -57,9 +57,17 @@ node -v
     "deviceFingerprint": "abc123",
     "email": "user@fraud.net"
 }
+
+{
+    "amount": 5500,
+    "currency": "USD",
+    "ip": "192.168.1.100",
+    "deviceFingerprint": "device-xyz",
+    "email": "user@example.ru"
+}
 ```
 
-## 🧠 Fraud Logic Description
+## Fraud Logic Description
 - If the email domain is high risk (e.g. `.ru`, `fraud.net`), add 0.4 to score.
 - Amounts over 1000 add 0.3.
 - Previously seen IPs and device fingerprints each add 0.1.
@@ -69,14 +77,14 @@ node -v
 ### LLM (OpenAI) Usage
 After computing the numeric score, the service calls OpenAI API to generate a **natural language explanation** of the risk factors identified.
 
-## 📌 Assumptions & Tradeoffs
+## Assumptions & Tradeoffs
 - **In-memory state:** Tracks seen IPs and fingerprints in-memory. Not persistent across restarts.
 - **LLM API cost:** Each evaluation calls the OpenAI API, which may incur usage costs.
 - **Simple Heuristics:** This is not a comprehensive fraud detection engine, just a rule-based score combined with AI explanation.
 - **Rate Limiting:** LLM requests use retry logic with backoff on 429 errors but lack advanced rate-limiting protections.
 
 ---
-### 👩‍💻 Tech Stack
+### Tech Stack
 - Node.js with Express
 - Joi for validation
 - Axios for API calls

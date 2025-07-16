@@ -65,10 +65,10 @@ const generateLLMExplanation = async ({ score, explanationParts }) => {
 
     while (attempt < maxRetries) {
         try {
-            const endPoint = `${config.OPENAI_API_URL}/completions`;
+            const endPoint = `${config.OPENAI_API_URL}/chat/completions`;
             
             const response = await axios.post(`${endPoint}`, {
-                model: 'gpt-3.5-turbo-instruct',
+                model: 'gpt-3.5-turbo',
                 prompt: `Summarize the following fraud analysis factors: ${explanationParts.join(', ')}. Total fraud score is ${score}.`,
                 max_tokens: 60
             }, {
@@ -77,7 +77,7 @@ const generateLLMExplanation = async ({ score, explanationParts }) => {
                     'Content-Type': 'application/json'
                 }
             });
-
+            logger.info(response.data);
             if (response.data && response.data.choices && response.data.choices.length > 0) {
                 logger.warn('fraudService.js#generateLLMExplanation - LLM response structure unexpected');
                 return response.data.choices[0].text.trim();

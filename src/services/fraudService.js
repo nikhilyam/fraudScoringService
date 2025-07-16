@@ -77,7 +77,6 @@ const generateLLMExplanation = async ({ score, explanationParts }) => {
                     'Content-Type': 'application/json'
                 }
             });
-            logger.info(response.data);
             if (response.data && response.data.choices && response.data.choices.length > 0) {
                 logger.warn('fraudService.js#generateLLMExplanation - LLM response structure unexpected');
                 return response.data.choices[0].text.trim();

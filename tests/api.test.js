@@ -17,7 +17,8 @@ describe('Fraud Scoring API', () => {
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('score');
-        expect(response.body).toHaveProperty('riskLevel');  
+        expect(response.body).toHaveProperty('riskLevel');
+        expect(response.body).toHaveProperty('explanation');  
     }, 10000);
 
     test('GET /fraud-stats - should return stats after evaluation', async () => {

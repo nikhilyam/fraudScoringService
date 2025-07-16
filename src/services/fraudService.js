@@ -66,10 +66,13 @@ const generateLLMExplanation = async ({ score, explanationParts }) => {
     while (attempt < maxRetries) {
         try {
             const endPoint = `${config.OPENAI_API_URL}/chat/completions`;
-            
+            const prompt = `Summarize the following fraud analysis factors: ${explanationParts.join(', ')}. Total fraud score is ${score}.`;
             const response = await axios.post(`${endPoint}`, {
-                model: 'gpt-3.5-turbo',
-                prompt: `Summarize the following fraud analysis factors: ${explanationParts.join(', ')}. Total fraud score is ${score}.`,
+                model: "gpt-4o-mini",
+                store: true,
+                messages: [
+                    {"role": "user", "content": prompt},
+                ],
                 max_tokens: 60
             }, {
                 headers: {
@@ -83,10 +86,10 @@ const generateLLMExplanation = async ({ score, explanationParts }) => {
             } else {
                 return 'No significant risks detected.';
             }
-
-            
         } catch (err) {
             if (err.response && err.response.status === 429) {
+                const { data } = err.response;
+                logger.error(`fraudService.js#generateLLMExplanation - Error: ${data.error.message}`);
                 logger.warn(`fraudService.js#generateLLMExplanation - Rate limit hit, retrying in ${delay}ms`);
                 await new Promise(resolve => setTimeout(resolve, delay));
                 attempt++;
